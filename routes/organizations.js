@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const Organisation = require("../models/organisations");
+const Organization = require("../models/organizations");
 const { checkBody } = require("../modules/checkBody");
 
 // Obtenir toutes les informations du restaurant avec son siret
@@ -21,18 +21,19 @@ router.get("/:siret", async (req, res) => {
 
     const restaurant = {
       siret: data.etablissement.siret,
-      nomSociete: data.etablissement.uniteLegale.denominationUniteLegale,
-      nomCommercial:
+      businessName: data.etablissement.uniteLegale.denominationUniteLegale,
+      businessCommercialName:
         data.etablissement.uniteLegale.denominationUsuelle1UniteLegale,
-      adresse: {
-        numeroVoie:
-          data.etablissement.adresseEtablissement.numeroVoieEtablissement,
-        typeVoie: data.etablissement.adresseEtablissement.typeVoieEtablissement,
-        libelleVoie:
+      businessAddress: {
+        number: data.etablissement.adresseEtablissement.numeroVoieEtablissement,
+        streetType:
+          data.etablissement.adresseEtablissement.typeVoieEtablissement,
+        streetName:
           data.etablissement.adresseEtablissement.libelleVoieEtablissement,
-        CP: data.etablissement.adresseEtablissement.codePostalEtablissement,
-        ville:
-          data.etablissement.adresseEtablissement.libelleCommuneEtablissement,
+        zipCode:
+          data.etablissement.adresseEtablissement.codePostalEtablissement,
+        city: data.etablissement.adresseEtablissement
+          .libelleCommuneEtablissement,
         coordonnee1:
           data.etablissement.adresseEtablissement
             .coordonneeLambertAbscisseEtablissement,
@@ -52,7 +53,12 @@ router.get("/:siret", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     if (
-      !checkBody(req.body, ["siret", "nomSociete", "nomEnseigne", "telephone"])
+      !checkBody(req.body, [
+        "siret",
+        "businessName",
+        "businessCommercialName",
+        "phoneNumber",
+      ])
     ) {
       res.json({ result: false, message: "Il manque des champs obligatoires" });
       return;
@@ -60,27 +66,31 @@ router.post("/", async (req, res) => {
 
     const {
       siret,
-      nomSociete,
-      nomEnseigne,
-      adresseSociete,
-      telephone,
-      proprietaire,
-      categorie,
+      businessName,
+      businessCommercialName,
+      businessAddress,
+      phoneNumber,
+      owner,
+      category,
     } = req.body;
-    const newRestaurant = new Organisation({
+
+    const checkBDD = await Organization.findOne({ siret });
+    if (checkBDD) {
+      res.json({
+        result: false,
+        message: "Votre SIRET est déjà enregistré ! Vérifiez son exactitude.",
+      });
+      return;
+    }
+
+    const newRestaurant = new Organization({
       siret: siret,
-      nomSociete: nomSociete,
-      nomEnseigne: nomEnseigne,
-      adresseSociete: {
-        numeroVoie: adresseSociete.numeroVoie,
-        typeVoie: adresseSociete.typeVoie,
-        libelleVoie: adresseSociete.libelleVoie,
-        CP: adresseSociete.codePostal,
-        ville: adresseSociete.ville,
-      },
-      telephone: telephone,
-      proprietaire: proprietaire, // À récupérer dans le front avec token
-      categorie: categorie,
+      businessName: businessName,
+      businessCommercialName: businessCommercialName,
+      businessAddress: businessAddress,
+      phoneNumber: phoneNumber,
+      owner: owner, // À récupérer dans le front avec token, "TEST" pour l'instant
+      category: category,
     });
 
     newRestaurant.save();
