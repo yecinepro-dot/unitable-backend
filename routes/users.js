@@ -141,6 +141,7 @@ router.post("/employee", async (req, res) => {
 		res.status(201).json({
 			result: true,
 			message: "Employee created successfully",
+			employee: savedEmployee,
 			tempPassword,
 		});
 	} catch (error) {
