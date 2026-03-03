@@ -93,9 +93,30 @@ router.post("/", async (req, res) => {
       category: category,
     });
 
-    newRestaurant.save();
+    await newRestaurant.save();
 
-    res.json({ result: true, message: "Restaurant enregistré avec succès" });
+    res.json({
+      result: true,
+      restaurant: newRestaurant,
+      message:
+        "Restaurant enregistré avec succès, vous allez être redirigé.e vers l'étape suivante 😁",
+    });
+  } catch (err) {
+    res.json({ result: false, message: err.message });
+  }
+});
+
+// GET pour récupérer les infos d'un restaurant depuis la BDD
+router.get("/getRestaurant/:siret", async (req, res) => {
+  try {
+    const restaurant = await Organization.findOne({ siret: req.params.siret });
+
+    if (!restaurant) {
+      res.json({ result: false, message: "Aucun restaurant trouvé" });
+      return;
+    }
+
+    res.json({ result: true, restaurant });
   } catch (err) {
     res.json({ result: false, message: err.message });
   }
