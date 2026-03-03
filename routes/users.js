@@ -29,6 +29,7 @@ router.post("/signup", (req, res) => {
         email: req.body.email,
         token: uid2(32),
         secuNumber: req.body.secuNumber,
+        birthDate: req.body.birthDate,
         adress: req.body.adress,
         phone: req.body.phone,
         position: req.body.posititon,
@@ -38,6 +39,8 @@ router.post("/signup", (req, res) => {
         hourVolumn: req.body.hourVolumn,
         contact: req.body.contact,
         organisationName: req.body.organisationName,
+        isAdmin: req.body.isAdmin,
+        firstConnection: req.body.firstConnection
       });
 
       /*Contact Urgent: 

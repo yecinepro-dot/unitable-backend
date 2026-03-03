@@ -6,7 +6,7 @@ const userSchema = mongoose.Schema({
   email: { type: String, unique: true, required: true },
   password: { type: String, required: true },
   token: { type: String },
-  //Sparse autoroise un attribut a etre vide même si unique
+  //Sparse autorise un attribut a etre vide même si unique
   secuNumber: { type: String, unique: true, sparse: true },
   adress: {
     type: [String],
@@ -15,6 +15,8 @@ const userSchema = mongoose.Schema({
   phone: { type: Number },
   position: { type: String },
   profil: { type: String },
+  isAdmin: { type: Boolean },
+  birthDate: { type: Date },
   dateContract: { type: Date },
   typeContract: { type: String },
   hourVolumn: { type: Number },
@@ -28,7 +30,7 @@ const userSchema = mongoose.Schema({
 
   organization: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Organization",
+    ref: "organizations",
   },
 });
 
