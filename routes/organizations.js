@@ -95,7 +95,11 @@ router.post("/", async (req, res) => {
 
     newRestaurant.save();
 
-    res.json({ result: true, message: "Restaurant enregistré avec succès" });
+    res.json({
+      result: true,
+      message: "Restaurant enregistré avec succès",
+      id: newRestaurant._id,
+    });
   } catch (err) {
     res.json({ result: false, message: err.message });
   }
