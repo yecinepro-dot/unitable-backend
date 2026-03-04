@@ -21,7 +21,7 @@ router.post("/", async (req, res) => {
 		await newTeam.save();
 
 		res.json({
-			result: true,
+			success: true,
 			message: "Équipe(s) enregistrée(s) avec succès !",
 			team: newTeam,
 		});
