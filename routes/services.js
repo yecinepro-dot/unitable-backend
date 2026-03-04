@@ -3,18 +3,13 @@ var router = express.Router();
 const Service = require("../models/services");
 const { checkBody } = require("../modules/checkBody");
 
-// GET tous les services d'un restaurant avec son id
-router.get("/:restaurantId", async (req, res) => {
+// GET Tous les services d'un restaurant
+router.get("/:id", async (req, res) => {
   try {
-    const services = await Service.find({
-      restaurant: req.params.restaurantId,
-    });
+    const services = await Service.find({ restaurant: req.params.id });
 
-    if (!services) {
-      return res.json({
-        result: false,
-        message: "Aucun service trouvé pour ce restaurant",
-      });
+    if (!services || services.length === 0) {
+      return res.json({ result: false, message: "Aucun service trouvé" });
     }
 
     res.json({ result: true, services });
@@ -23,8 +18,8 @@ router.get("/:restaurantId", async (req, res) => {
   }
 });
 
-// POST pour créer un service
-router.post("/new", async (req, res) => {
+// POST Ajouter un service à un restaurant
+router.post("/", async (req, res) => {
   try {
     if (
       !checkBody(req.body, [
@@ -35,8 +30,7 @@ router.post("/new", async (req, res) => {
         "restaurant",
       ])
     ) {
-      res.json({ result: false, message: "Veuillez remplir tous les champs" });
-      return;
+      return res.json({ result: false, message: "Champs manquants" });
     }
 
     const { name, startTime, endTime, dayOfWeek, restaurant } = req.body;
@@ -49,51 +43,45 @@ router.post("/new", async (req, res) => {
       restaurant,
     });
 
-    const savedService = await newService.save();
-    res.json({ result: true, service: savedService });
-  } catch (err) {
-    res.json({ result: false, message: err.message });
-  }
-});
-
-// PUT pour modifier un service
-router.put("/edit/:id", async (req, res) => {
-  try {
-    const service = await Service.findById(req.params.id);
-
-    if (!service) {
-      return res.json({ result: false, message: "Service non trouvé" });
-    }
-
-    const { name, startTime, endTime, dayOfWeek } = req.body;
-
-    if (name) service.name = name;
-    if (startTime) service.startTime = startTime;
-    if (endTime) service.endTime = endTime;
-    if (dayOfWeek) service.dayOfWeek = dayOfWeek;
-
-    const updatedService = await service.save();
+    await newService.save();
     res.json({
       result: true,
-      service: updatedService,
-      message: "Service mis à jour avec succès",
+      message:
+        "Service ajouté avec succès, vous allez être redirigé.e vers l'étape suivante !",
+      serviceId: newService._id,
     });
   } catch (err) {
     res.json({ result: false, message: err.message });
   }
 });
 
-// DELETE pour supprimer un service
-router.delete("/delete/:id", async (req, res) => {
+// DELETE Supprimer un service d'un restaurant
+router.delete("/:id", async (req, res) => {
   try {
-    const service = await Service.findById(req.params.id);
+    const service = await Service.findByIdAndDelete(req.params.id);
 
     if (!service) {
       return res.json({ result: false, message: "Service non trouvé" });
     }
 
-    await Service.deleteOne({ _id: req.params.id });
     res.json({ result: true, message: "Service supprimé avec succès" });
+  } catch (err) {
+    res.json({ result: false, message: err.message });
+  }
+});
+
+// PUT Modifier un service d'un restaurant
+router.put("/:id", async (req, res) => {
+  try {
+    const service = await Service.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+
+    if (!service) {
+      return res.json({ result: false, message: "Service non trouvé" });
+    }
+
+    res.json({ result: true, message: "Service modifié avec succès", service });
   } catch (err) {
     res.json({ result: false, message: err.message });
   }
