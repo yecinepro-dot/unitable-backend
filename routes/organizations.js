@@ -93,7 +93,7 @@ router.post("/", async (req, res) => {
       category: category,
     });
 
-    newRestaurant.save();
+    await newRestaurant.save();
 
     res.json({
       result: true,
