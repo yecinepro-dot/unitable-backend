@@ -97,7 +97,8 @@ router.post("/", async (req, res) => {
 
     res.json({
       result: true,
-      message: "Restaurant enregistré avec succès",
+      message:
+        "Restaurant enregistré avec succès, vous allez être redirigé.e vers la page suivante !",
       id: newRestaurant._id,
     });
   } catch (err) {

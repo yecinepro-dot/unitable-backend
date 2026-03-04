@@ -21,15 +21,7 @@ router.get("/:id", async (req, res) => {
 // POST Ajouter un service à un restaurant
 router.post("/", async (req, res) => {
   try {
-    if (
-      !checkBody(req.body, [
-        "name",
-        "startTime",
-        "endTime",
-        "dayOfWeek",
-        "restaurant",
-      ])
-    ) {
+    if (!checkBody(req.body, ["name", "startTime", "endTime", "dayOfWeek"])) {
       return res.json({ result: false, message: "Champs manquants" });
     }
 
