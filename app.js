@@ -10,6 +10,7 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var businessRouter = require("./routes/organizations");
 var serviceRouter = require("./routes/services");
+var emailRouter = require("./routes/emails");
 var employeeRouter = require("./routes/employee");
 var teamRouter = require("./routes/teams");
 
@@ -23,6 +24,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
+app.use("/emails", emailRouter);
 app.use("/users", usersRouter);
 app.use("/organizations", businessRouter);
 app.use("/services", serviceRouter);
