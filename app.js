@@ -11,6 +11,9 @@ var usersRouter = require("./routes/users");
 var businessRouter = require("./routes/organizations");
 var serviceRouter = require("./routes/services");
 var emailRouter = require("./routes/emails");
+var employeeRouter = require("./routes/employee");
+var teamRouter = require("./routes/teams");
+
 var app = express();
 
 app.use(cors());
@@ -25,5 +28,7 @@ app.use("/emails", emailRouter);
 app.use("/users", usersRouter);
 app.use("/organizations", businessRouter);
 app.use("/services", serviceRouter);
+app.use("/employee", employeeRouter);
+app.use("/teams", teamRouter);
 
 module.exports = app;
