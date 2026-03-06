@@ -52,7 +52,7 @@ router.get("/:organizationId", async (req, res) => {
       });
     }
 
-    res.json({ result: true, equipes: teams.equipes });
+    res.json({ result: true, teams: teams.equipes });
   } catch (err) {
     console.error(err);
     res.json({ result: false, message: err.message });

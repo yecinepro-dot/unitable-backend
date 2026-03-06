@@ -13,6 +13,7 @@ var serviceRouter = require("./routes/services");
 var emailRouter = require("./routes/emails");
 var employeeRouter = require("./routes/employee");
 var teamRouter = require("./routes/teams");
+var planningRouter = require("./routes/planning");
 
 var app = express();
 
@@ -30,5 +31,6 @@ app.use("/organizations", businessRouter);
 app.use("/services", serviceRouter);
 app.use("/employee", employeeRouter);
 app.use("/teams", teamRouter);
+app.use("/planning", planningRouter);
 
 module.exports = app;
