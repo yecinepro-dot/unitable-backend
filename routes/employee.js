@@ -7,7 +7,7 @@ const uid2 = require("uid2");
 const bcrypt = require("bcrypt");
 
 router.post("/", async (req, res) => {
-	console.log("REQ.BODY:", req.body);
+	console.log("req.body:", req.body);
 	try {
 		const {
 			firstName,
@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
 		if (!email || !firstName || !lastName) {
 			return res.status(400).json({
 				result: false,
-				error: "Missing required fields",
+				error: "Champs requis manquants",
 			});
 		}
 
@@ -37,10 +37,10 @@ router.post("/", async (req, res) => {
 		const existingUser = await User.findOne({ email });
 
 		if (existingUser) {
-			return res.json({ result: false, error: "User already exists" });
+			return res.json({ result: false, error: "L'employé existe déjà" });
 		}
 
-		// On génère un mot de passe temporaire
+		// On génère un mot de passe temporaire qui sera à renouveller lors de la première connexion
 		const tempPassword = uid2(8);
 		const hash = bcrypt.hashSync(tempPassword, 10);
 
@@ -68,7 +68,7 @@ router.post("/", async (req, res) => {
 
 		res.status(201).json({
 			result: true,
-			message: "Employee created successfully",
+			message: "L'employé a été créé",
 			employee: savedEmployee,
 			tempPassword,
 		});
@@ -78,12 +78,12 @@ router.post("/", async (req, res) => {
 		// 	result: false,
 		// 	error: "Server error",
 		// });
-		console.error("ERREUR EMPLOYEE:", error.message);
+		console.error("erreur employé:", error.message);
 		res.status(500).json({ result: false, error: error.message });
 	}
 });
 
-// DELETE /users/employee/:id
+// DELETE /employee/:id
 router.delete("/:id", async (req, res) => {
 	try {
 		const employee = await User.findByIdAndDelete(req.params.id);
