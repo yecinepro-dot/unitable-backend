@@ -31,7 +31,7 @@ const serviceSchema = mongoose.Schema({
       ],
     },
   ],
-  equipes: [teamSchema],
+  teams: [teamSchema],
   restaurant: { type: mongoose.Schema.Types.ObjectId, ref: "organizations" },
 });
 
