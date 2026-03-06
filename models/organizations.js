@@ -19,6 +19,6 @@ const organizationSchema = mongoose.Schema({
   // owner: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
 });
 
-const Organization = mongoose.model("Organization", organizationSchema);
+const Organization = mongoose.model("organizations", organizationSchema);
 
 module.exports = Organization;
