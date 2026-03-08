@@ -25,7 +25,7 @@ router.post("/", async (req, res) => {
       return res.json({ result: false, message: "Champs manquants" });
     }
 
-    const { name, startTime, endTime, dayOfWeek, restaurant } = req.body;
+    const { name, startTime, endTime, dayOfWeek, restaurant, teams } = req.body;
 
     const newService = new Service({
       name,
@@ -33,6 +33,7 @@ router.post("/", async (req, res) => {
       endTime,
       dayOfWeek,
       restaurant,
+      teams,
     });
 
     await newService.save();
