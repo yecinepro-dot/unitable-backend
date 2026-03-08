@@ -3,7 +3,7 @@ var router = express.Router();
 const Team = require("../models/teams");
 const { checkBody } = require("../modules/checkBody");
 
-// Pussh une team
+// Push une team
 router.post("/", async (req, res) => {
   try {
     const { organizationId, equipes } = req.body;

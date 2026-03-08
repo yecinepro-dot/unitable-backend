@@ -6,6 +6,17 @@ const { checkBody } = require("../modules/checkBody");
 const uid2 = require("uid2");
 const bcrypt = require("bcrypt");
 
+router.get("/:organizationId", async (req, res) => {
+  const { organizationId } = req.params;
+  try {
+    const employees = await User.find({ organization: organizationId });
+    res.json({ result: true, employees });
+  } catch (error) {
+    console.error("ERREUR GET EMPLOYEE:", error.message);
+    res.status(500).json({ result: false, error: error.message });
+  }
+});
+
 router.post("/", async (req, res) => {
   // console.log("REQ.BODY:", req.body);
   try {
@@ -23,6 +34,7 @@ router.post("/", async (req, res) => {
       typeContract,
       hourVolumn,
       contact,
+      organization
     } = req.body;
 
     // On check si ces champs sont remplis
@@ -62,6 +74,7 @@ router.post("/", async (req, res) => {
       contact,
       isAdmin: profil === "admin",
       firstConnection: true,
+      organization,
     });
 
     const savedEmployee = await newEmployee.save();
