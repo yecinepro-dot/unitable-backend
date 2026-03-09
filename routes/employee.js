@@ -7,7 +7,7 @@ const uid2 = require("uid2");
 const bcrypt = require("bcrypt");
 
 router.post("/", async (req, res) => {
-  console.log("REQ.BODY:", req.body);
+  // console.log("REQ.BODY:", req.body);
   try {
     const {
       firstName,
@@ -23,7 +23,6 @@ router.post("/", async (req, res) => {
       typeContract,
       hourVolumn,
       contact,
-      organizationId,
     } = req.body;
 
     // On check si ces champs sont remplis
@@ -61,7 +60,6 @@ router.post("/", async (req, res) => {
       typeContract,
       hourVolumn,
       contact,
-      organization: organizationId,
       isAdmin: profil === "admin",
       firstConnection: true,
     });

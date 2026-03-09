@@ -44,7 +44,8 @@ router.post("/", async (req, res) => {
       serviceId: newService._id,
     });
   } catch (err) {
-    res.json({ result: false, message: err.message });
+    console.log(err.message);
+    res.status(500).json({ result: false, message: err.message });
   }
 });
 
