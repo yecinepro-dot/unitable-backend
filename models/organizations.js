@@ -15,8 +15,9 @@ const organizationSchema = mongoose.Schema({
   },
   phoneNumber: String,
   category: String,
-  owner: String, // En attendant de lier avec BDD users
-  // owner: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
+  //owner: String, 
+  // // En attendant de lier avec BDD users
+  owner: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
 });
 
 const Organization = mongoose.model("organizations", organizationSchema);
