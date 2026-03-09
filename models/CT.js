@@ -7,7 +7,7 @@ const CTSchema = mongoose.Schema({
   endTime: Number, // minutes depuis minuit
   pause: Number, // en minutes
   worker: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
-  role: [{ type: mongoose.Schema.Types.ObjectId, ref: "services" }], // penser au .populate pour exploiter la données
+  role: [{ type: String }],
   checkArrival: Number,
   checkDeparture: Number,
   restaurant: { type: mongoose.Schema.Types.ObjectId, ref: "organizations" },
