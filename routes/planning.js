@@ -51,7 +51,7 @@ router.post("/create", async (req, res) => {
     createdBy,
   } = req.body;
   // Assurer que la date récupérée soit au bon format pour la BDD pour avoir le bon jour
-  const formattedDate = dayjs(date, "DD/MM/YYYY")
+  const formattedDate = dayjs(date)
     .startOf("day")
     .add(12, "hours") // On vise midi pour éviter le piège des fuseaux horaires
     .toDate();
