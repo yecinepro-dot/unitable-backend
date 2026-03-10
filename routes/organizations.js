@@ -62,7 +62,7 @@ router.post("/", async (req, res) => {
         "token",
       ])
     ) {
-      res.json({ result: false, message: "Il manque des champs obligatoires" });
+      res.json({ result: false, message: "Il manque des champs obligatoires"});
       return;
     }
 
