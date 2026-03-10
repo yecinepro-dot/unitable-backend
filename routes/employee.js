@@ -34,6 +34,7 @@ router.post("/", async (req, res) => {
       typeContract,
       hourVolumn,
       contact,
+      organization,
     } = req.body;
 
     // On check si ces champs sont remplis
@@ -73,6 +74,7 @@ router.post("/", async (req, res) => {
       contact,
       isAdmin: profil === "admin",
       firstConnection: true,
+      organization,
     });
 
     const savedEmployee = await newEmployee.save();
