@@ -106,4 +106,19 @@ router.post("/", async (req, res) => {
   }
 });
 
+// router get pour récupérer les infos d'une organisation via son id
+router.get("/search/by/:id", async (req, res) => {
+  try {
+    const organization = await Organization.findById(req.params.id);
+
+    if (!organization) {
+      res.json({ result: false, message: "Organisation non trouvée" });
+      return;
+    }
+    res.json({ result: true, organization });
+  } catch (err) {
+    res.json({ result: false, message: err.message });
+  }
+});
+
 module.exports = router;
