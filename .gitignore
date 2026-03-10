@@ -68,3 +68,5 @@ yarn.lock
 package-lock.json
 
 /tests/**
+
+app.test.js
