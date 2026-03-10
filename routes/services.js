@@ -17,7 +17,19 @@ router.get("/:id", async (req, res) => {
     res.json({ result: false, message: err.message });
   }
 });
+// Recuperer les teams d'un service d'un restaurant par l'organizationId
 
+router.get("/teams/:id", async (req, res) => {
+  try {
+    const service = await Service.find({restaurant: req.params.id});
+    if (!service || service.length === 0) {
+      return res.json({ result: false, message: "Services non trouvé" });
+    }
+    res.json({ result: true, teams: service.teams });
+  } catch (err) {
+    res.json({ result: false, message: err.message });
+  }
+});
 // POST Ajouter un service à un restaurant
 router.post("/", async (req, res) => {
   try {
