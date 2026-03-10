@@ -34,6 +34,7 @@ router.post("/", async (req, res) => {
 			typeContract,
 			hourVolumn,
 			contact,
+			organization,
 		} = req.body;
 
 		// On check si ces champs sont remplis
@@ -114,6 +115,27 @@ router.delete("/:id", async (req, res) => {
 	} catch (err) {
 		console.error(err);
 		res.status(500).json({ result: false, error: err.message });
+	}
+});
+
+// UPDATE /employee/:id
+router.put("/:id", async (req, res) => {
+	try {
+		const updatedEmployee = await User.findByIdAndUpdate(
+			req.params.id,
+			req.body,
+			{ new: true },
+		);
+
+		res.json({
+			result: true,
+			employee: updatedEmployee,
+		});
+	} catch (error) {
+		res.status(500).json({
+			result: false,
+			error: error.message,
+		});
 	}
 });
 
