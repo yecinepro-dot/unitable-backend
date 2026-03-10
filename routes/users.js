@@ -62,6 +62,29 @@ router.put("/password", async (req, res) => {
 	}
 });
 
+router.put("/organization", async (req, res) => {
+  const { email, organizationId } = req.body;
+  console.log("Received email:", email);
+  console.log("Received organizationId:", organizationId);
+  if (!email || !organizationId) {
+    //add status 400 pour bad request
+
+    return res
+      .status(400)
+      .res.json({ result: false, error: "Missing email or organization" });
+  }
+  try {
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      return res.json({ result: false, error: "User not found" });
+    }
+    await User.updateOne({ email: email }, { organization: organizationId });
+    res.json({ result: true, message: "Organization updated successfully" });
+  } catch (err) {
+    console.error(err);
+    res.json({ result: false, error: "Error updating organization" });
+  }
+});
 router.post("/signup", (req, res) => {
 	if (!checkBody(req.body, ["email", "password"])) {
 		res.json({ result: false, error: "Missing or empty fields" });

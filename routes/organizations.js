@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const Organization = require("../models/organizations");
+const User = require("../models/users");
 const { checkBody } = require("../modules/checkBody");
 
 // Obtenir toutes les informations du restaurant avec son siret
@@ -58,6 +59,7 @@ router.post("/", async (req, res) => {
         "businessName",
         "businessCommercialName",
         "phoneNumber",
+        "token",
       ])
     ) {
       res.json({ result: false, message: "Il manque des champs obligatoires" });
@@ -70,9 +72,16 @@ router.post("/", async (req, res) => {
       businessCommercialName,
       businessAddress,
       phoneNumber,
-      owner,
+      token,
       category,
     } = req.body;
+
+    // Retrouve le user via le token
+    const owner = await User.findOne({ token });
+    if (!owner) {
+      res.json({ result: false, message: "Utilisateur non trouvé" });
+      return;
+    }
 
     const checkBDD = await Organization.findOne({ siret });
     if (checkBDD) {
@@ -89,11 +98,17 @@ router.post("/", async (req, res) => {
       businessCommercialName: businessCommercialName,
       businessAddress: businessAddress,
       phoneNumber: phoneNumber,
-      owner: owner, // À récupérer dans le front avec token, "TEST" pour l'instant
+      owner: owner._id,
       category: category,
     });
 
     await newRestaurant.save();
+
+    // Synchronise aussi la relation côté user pour garder un lien bidirectionnel.
+    await User.updateOne(
+      { _id: owner._id },
+      { organization: newRestaurant._id },
+    );
 
     res.json({
       result: true,
@@ -101,6 +116,21 @@ router.post("/", async (req, res) => {
         "Restaurant enregistré avec succès, vous allez être redirigé.e vers la page suivante !",
       id: newRestaurant._id,
     });
+  } catch (err) {
+    res.json({ result: false, message: err.message });
+  }
+});
+
+// router get pour récupérer les infos d'une organisation via son id
+router.get("/search/by/:id", async (req, res) => {
+  try {
+    const organization = await Organization.findById(req.params.id)
+
+    if (!organization) {
+      res.json({ result: false, message: "Organisation non trouvée" });
+      return;
+    }
+    res.json({ result: true, organization });
   } catch (err) {
     res.json({ result: false, message: err.message });
   }
