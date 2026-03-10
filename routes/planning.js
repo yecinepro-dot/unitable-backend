@@ -9,29 +9,30 @@ dayjs.extend(customParseFormat);
 // GET /all - Récupérer tous les CT d'un restaurant
 router.get("/all/:idRestaurant", async (req, res) => {
   const { idRestaurant } = req.params;
+
+  if (!idRestaurant) {
+    return res
+      .status(400)
+      .json({ result: false, message: "Restaurant non identifié" });
+  }
   try {
-    const response = await CT.find({ restaurant: idRestaurant })
+    const foundCTs = await CT.find({ restaurant: idRestaurant })
       .populate("restaurant", "businessCommercialName")
       .populate("worker", "firstName lastName")
       .populate("createdBy", "firstName lastName");
 
-    if (!response || response.length === 0) {
-      return res.status(404).json({
-        result: false,
-        message:
-          "Pas de créneaux de travail pour votre restaurant, créez le premier !",
-      });
-    }
-
     res.status(200).json({
       result: true,
-      message: "CT récupérés pour le restaurant",
-      response,
+      message:
+        foundCTs.length < 0
+          ? "CT récupérés pour le restaurant"
+          : "Pas de CT pour ce restaurant",
+      foundCTs,
     });
-    console.log("✅ CT récupérés");
+    // console.log("✅ CT récupérés");
   } catch (err) {
     res.status(500).json({ result: false, message: err.message });
-    console.log("❌ Problème récupération CT : ", err.message);
+    // console.log("❌ Problème récupération CT : ", err.message);
   }
 });
 
