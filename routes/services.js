@@ -21,7 +21,7 @@ router.get("/:id", async (req, res) => {
 
 router.get("/teams/:id", async (req, res) => {
   try {
-    const service = await Service.find({restaurant: req.params.id});
+    const service = await Service.find({ restaurant: req.params.id });
     if (!service || service.length === 0) {
       return res.json({ result: false, message: "Services non trouvé" });
     }
@@ -76,7 +76,40 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+router.delete("/:id/teams/:teamName", async (req, res) => {
+  try {
+    const service = await Service.findByIdAndUpdate(
+      req.params.id,
+      { $pull: { teams: { teamName: decodeURIComponent(req.params.teamName) } } },
+      { new: true },
+    );
+    if (!service) {
+      return res.json({ result: false, message: "Service non trouvé" });
+    }
+
+    res.json({ result: true, message: "Equipe supprimée avec succès" });
+  } catch (err) {
+    res.json({ result: false, message: err.message });
+  }
+});
+
 // PUT Modifier un service d'un restaurant
+router.put("/:id", async (req, res) => {
+  try {
+    const service = await Service.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+
+    if (!service) {
+      return res.json({ result: false, message: "Service non trouvé" });
+    }
+
+    res.json({ result: true, message: "Service modifié avec succès", service });
+  } catch (err) {
+    res.json({ result: false, message: err.message });
+  }
+});
+
 router.put("/:id", async (req, res) => {
   try {
     const service = await Service.findByIdAndUpdate(req.params.id, req.body, {

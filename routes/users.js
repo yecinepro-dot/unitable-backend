@@ -81,6 +81,8 @@ router.put("/organization", async (req, res) => {
     res.json({ result: false, error: "Error updating organization" });
   }
 });
+
+
 router.post("/signup", (req, res) => {
   if (!checkBody(req.body, ["email", "password"])) {
     res.json({ result: false, error: "Missing or empty fields" });
