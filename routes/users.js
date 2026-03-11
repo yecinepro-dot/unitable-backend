@@ -69,12 +69,10 @@ router.put("/organization", async (req, res) => {
 	if (!email || !organizationId) {
 		//add status 400 pour bad request
 
-		return res
-			.status(400)
-			.res.json({
-				result: false,
-				error: "Missing email or organization",
-			});
+		return res.status(400).res.json({
+			result: false,
+			error: "Missing email or organization",
+		});
 	}
 	try {
 		const user = await User.findOne({ email: email });
@@ -133,14 +131,14 @@ router.post("/signup", (req, res) => {
 
 */
 
-      newUser.save().then((newDoc) => {
-        res.json({ result: true, token: newDoc.token, id: newDoc._id });
-      });
-    } else {
-      // User already exists in database
-      res.json({ result: false, error: "User already exists" });
-    }
-  });
+			newUser.save().then((newDoc) => {
+				res.json({ result: true, token: newDoc.token, id: newDoc._id });
+			});
+		} else {
+			// User already exists in database
+			res.json({ result: false, error: "User already exists" });
+		}
+	});
 });
 
 router.post("/signin", (req, res) => {
@@ -155,6 +153,7 @@ router.post("/signin", (req, res) => {
 				result: true,
 				token: data.token,
 				user: {
+					_id: data._id,
 					firstName: data.firstName,
 					lastName: data.lastName,
 					email: data.email,
