@@ -100,6 +100,7 @@ router.post("/", async (req, res) => {
       phoneNumber: phoneNumber,
       owner: owner._id,
       category: category,
+      referenceTeams: [],
     });
 
     await newRestaurant.save();
@@ -118,6 +119,34 @@ router.post("/", async (req, res) => {
     });
   } catch (err) {
     res.json({ result: false, message: err.message });
+  }
+});
+
+// PATCH ajouter les referenceTeams
+router.patch("/addReferenceTeams/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { referenceTeams } = req.body;
+
+    const updatedOrganization = await Organization.findByIdAndUpdate(
+      { _id: id },
+      { referenceTeams: referenceTeams },
+      { new: true },
+    );
+
+    if (updatedOrganization.referenceTeams.length === 0) {
+      res
+        .status(500)
+        .json({ result: false, message: "Restaurant non mis à jour" });
+    }
+
+    res.status(202).json({
+      result: true,
+      updatedOrganization,
+      message: "Restaurant mis à jour avec succès",
+    });
+  } catch (err) {
+    res.status(500).json({ result: false, message: err.message });
   }
 });
 
