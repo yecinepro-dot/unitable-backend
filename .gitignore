@@ -66,5 +66,8 @@ typings/
 .DS_Store
 yarn.lock
 .yarn/
+package-lock.json
+
+/tests/**
 
 app.test.js
