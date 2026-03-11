@@ -1,5 +1,17 @@
 const mongoose = require("mongoose");
 
+// Rôle : nom et besoin en personnel
+const roleSchema = mongoose.Schema({
+  name: { type: String, required: true },
+  need: { type: Number, required: true, default: 0 },
+});
+
+// Équipe : nom et rôles associés
+const teamSchema = mongoose.Schema({
+  name: { type: String, required: true },
+  roles: [roleSchema],
+});
+
 const organizationSchema = mongoose.Schema({
   siret: String,
   businessName: String,
@@ -15,9 +27,10 @@ const organizationSchema = mongoose.Schema({
   },
   phoneNumber: String,
   category: String,
-  //owner: String, 
+  //owner: String,
   // // En attendant de lier avec BDD users
   owner: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
+  referenceTeams: [teamSchema],
 });
 
 const Organization = mongoose.model("organizations", organizationSchema);

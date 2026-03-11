@@ -51,7 +51,7 @@ router.post("/create", async (req, res) => {
     createdBy,
   } = req.body;
   // Assurer que la date récupérée soit au bon format pour la BDD pour avoir le bon jour
-  const formattedDate = dayjs(date, "DD/MM/YYYY")
+  const formattedDate = dayjs(date)
     .startOf("day")
     .add(12, "hours") // On vise midi pour éviter le piège des fuseaux horaires
     .toDate();
@@ -132,7 +132,7 @@ router.delete("/delete/:idCT", async (req, res) => {
 router.put("/update/:idCT", async (req, res) => {
   const { date, startTime, endTime, pause, worker, role } = req.body;
   const { idCT } = req.params;
-  const formattedDate = dayjs(date, "DD/MM/YYYY")
+  const formattedDate = dayjs(date)
     .startOf("day")
     .add(12, "hours") // On vise midi pour éviter le piège des fuseaux horaires
     .toDate();
@@ -157,7 +157,7 @@ router.put("/update/:idCT", async (req, res) => {
         .json({ result: false, message: "Pas de CT à modifier" });
     }
 
-    res.status(200).json({ result: true, updatedCT });
+    res.status(200).json({ result: true, message: "CT modifié", updatedCT });
   } catch (err) {
     return res.status(500).json({ result: false, message: err.message });
   }

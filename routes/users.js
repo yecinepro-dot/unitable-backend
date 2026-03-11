@@ -133,14 +133,14 @@ router.post("/signup", (req, res) => {
 
 */
 
-			newUser.save().then((newDoc) => {
-				res.json({ result: true, token: newDoc.token });
-			});
-		} else {
-			// User already exists in database
-			res.json({ result: false, error: "User already exists" });
-		}
-	});
+      newUser.save().then((newDoc) => {
+        res.json({ result: true, token: newDoc.token, id: newDoc._id });
+      });
+    } else {
+      // User already exists in database
+      res.json({ result: false, error: "User already exists" });
+    }
+  });
 });
 
 router.post("/signin", (req, res) => {
