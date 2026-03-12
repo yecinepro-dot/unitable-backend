@@ -7,7 +7,7 @@ const userSchema = mongoose.Schema({
   password: { type: String, required: true },
   token: { type: String },
   //Sparse autorise un attribut a etre vide même si unique
-  secuNumber: { type: String, unique: true, sparse: true },
+  secuNumber: { type: String },
   address: {
     street: { type: String },
     city: { type: String },
