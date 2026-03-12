@@ -64,8 +64,7 @@ router.put("/password", async (req, res) => {
 
 router.put("/organization", async (req, res) => {
 	const { email, organizationId } = req.body;
-	console.log("Received email:", email);
-	console.log("Received organizationId:", organizationId);
+
 	if (!email || !organizationId) {
 		//add status 400 pour bad request
 

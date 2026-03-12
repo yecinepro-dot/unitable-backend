@@ -38,6 +38,11 @@ router.post("/", async (req, res) => {
 			organization,
 		} = req.body;
 
+		const normalizedSecuNumber =
+			typeof secuNumber === "string" && secuNumber.trim() === ""
+				? undefined
+				: secuNumber;
+
 		// On check si ces champs sont remplis
 		if (!email || !firstName || !lastName) {
 			return res.status(400).json({
@@ -68,7 +73,7 @@ router.post("/", async (req, res) => {
 			position,
 			profil,
 			birthDate,
-			secuNumber,
+			secuNumber: normalizedSecuNumber,
 			dateContract,
 			typeContract,
 			hourVolumn,
