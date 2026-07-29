@@ -10,7 +10,7 @@
 [![Day.js](https://img.shields.io/badge/Day.js-1.11.19-FF6B6B?style=for-the-badge)](https://day.js.org/)
 [![Axios](https://img.shields.io/badge/Axios-1.13.6-5A29E4?style=for-the-badge&logo=axios&logoColor=white)](https://axios-http.com/)
 [![Jest](https://img.shields.io/badge/Jest-30.2.0-C21325?style=for-the-badge&logo=jest&logoColor=white)](https://jestjs.io/)
-[![License: BSL](https://img.shields.io/badge/License-BSL_1.1-orange.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![License: BSL](https://img.shields.io/badge/License-BSL_1.1-orange.svg?style=for-the-badge)](https://mariadb.com/bsl11)
 
 ---
 
@@ -303,13 +303,31 @@ npm test
 
 ## 📜 Licence
 
-Ce projet est sous **Business Source License 1.1**.
+Ce projet est sous **[Business Source License 1.1 (BSL 1.1)](https://mariadb.com/bsl11)**.
 
-- **Usage personnel/éducatif** : Gratuit et autorisé
-- **Usage commercial** : Requiert une licence payante
-- Après 5 ans : Le projet passera sous licence Apache 2.0
+### 🆓 Utilisation gratuite autorisée
 
-Pour une licence commerciale : contact@unitable.fr
+- Usage **personnel** et **non-commercial**
+- Éducation, formation et tests
+- Évaluation du produit
+
+### 💰 Utilisation commerciale
+
+Toute utilisation **commerciale** nécessite une **licence payante** :
+
+- Déploiement en production
+- Intégration dans un produit ou service payant
+- Utilisation dans un contexte générant des revenus (directement ou indirectement)
+
+### ⏳ Transition vers l'open source
+
+Ce projet passera automatiquement sous **licence Apache 2.0** le **1er janvier 2030** (4 ans après la première publication).
+
+### 📄 Obtenir une licence commerciale
+
+Pour une licence commerciale, contactez-nous : </br>
+📧 **contact@unitable.fr**
+🌐 [**unitable.fr**](https://www.unitable.fr)
 
 ---
 
